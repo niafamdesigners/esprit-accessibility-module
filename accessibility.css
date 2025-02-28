@@ -1,0 +1,338 @@
+@charset "UTF-8";
+.accessibility__btn {
+  z-index: 700;
+  width: 40px;
+  height: 40px;
+  border-radius: 0px 10px 10px 0px;
+  background: #0492C2;
+  position: fixed;
+  left: 0px;
+  top: calc(50% - 25px);
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+.accessibility__btn:hover {
+  color: white;
+  background-color: #00bbda;
+}
+
+.accessibility__btn i {
+  font-size: 1em;
+}
+
+.accessibility__btn:hover .accessibility__tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.accessibility__tooltip {
+  opacity: 0;
+  visibility: hidden;
+  min-width: -moz-max-content;
+  min-width: max-content;
+  padding: 5px 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: black;
+  background-color: #00bbda;
+  border-radius: 5px;
+  position: fixed;
+  left: 50px;
+  top: calc(50% - 17px);
+  transition: all 0.3s ease-out;
+  height: 27px;
+  color: white;
+}
+
+.accessibility__tooltip::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  position: absolute;
+  left: -7px;
+  border-right: 10px solid #00bbda;
+}
+
+/* استایل‌های نهایی برای تنظیمات قالب */
+.offcanvas-settings {
+  position: fixed;
+  top: 0;
+  left: -600px;
+  width: 300px;
+  height: 100%;
+  background: #f8f8f8;
+  box-shadow: 30px 0px 60px 30px rgba(0, 0, 0, 0.2);
+  padding: 20px 20px 20px 10px;
+  transition: left 0.3s;
+  z-index: 1000;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc #f8f8f8;
+}
+.offcanvas-settings h3 {
+  font-size: 1.125em;
+  font-variation-settings: "wght" 699, "KASH" 0;
+  margin-bottom: 1rem;
+  padding-inline-start: 5px;
+}
+.offcanvas-settings label {
+  font-size: 1em;
+  font-variation-settings: "wght" 450, "KASH" 0;
+  margin-bottom: 0.5rem;
+  padding-inline-start: 5px;
+  position: relative;
+}
+.offcanvas-settings .reset-button {
+  background: none;
+  border: none;
+  color: #ff4d4d;
+  font-size: 0.9em;
+  cursor: pointer;
+  margin-inline-start: 8px;
+  transition: color 0.3s;
+}
+.offcanvas-settings .reset-button:hover {
+  color: #d32f2f;
+}
+.offcanvas-settings .reset-icon {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  stroke: #ff4d4d;
+  transition: stroke 0.3s, transform 0.3s;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}
+.offcanvas-settings .reset-icon:hover {
+  stroke: #cc0000;
+  transform: rotate(-20deg);
+}
+
+.offcanvas-settings__item {
+  background: #eee;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  padding: 1rem;
+  position: relative;
+}
+.offcanvas-settings__item .noUi-target {
+  margin-bottom: 2.5rem;
+}
+
+.offcanvas-settings::-webkit-scrollbar {
+  width: 6px;
+}
+
+.offcanvas-settings::-webkit-scrollbar-thumb {
+  background: #bbb;
+  border-radius: 3px;
+}
+
+.offcanvas-settings.open {
+  left: 0;
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 15px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid #ddd;
+}
+
+/* تنظیمات گزینه‌ها */
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.options-grid.options-grid-horizontally {
+  grid-template-columns: repeat(8, 1fr);
+}
+
+.options-grid.options-grid-horizontally .option-item {
+  border-radius: 100px;
+  border: 0px solid transparent;
+  width: 24px;
+  height: 24px;
+}
+
+.option-item {
+  padding: 12px;
+  text-align: center;
+  border: 2px solid transparent;
+  cursor: pointer;
+  background: #e0e0e0;
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.option-item:hover {
+  background: #d6d6d6;
+  transform: scale(1.05);
+}
+
+.option-item.active {
+  border-color: #007bff;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  transform: scale(1.1);
+}
+
+.option-item img {
+  width: auto;
+  height: 18px;
+  display: inline-block;
+  vertical-align: middle;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+/* لیست رنگ‌ها به‌صورت دایره‌ای */
+.color-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.color-item {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.3s;
+}
+
+.color-item:hover {
+  transform: scale(1.1);
+}
+
+.color-item.active {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* تب‌بندی تنظیمات */
+.settings-tabs {
+  display: flex;
+  justify-content: space-around;
+  background: #ddd;
+  padding: 5px;
+  border-radius: 8px;
+}
+
+.tab-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 6px;
+  transition: all 0.3s;
+}
+
+.tab-item.active {
+  background: #007bff;
+  color: white;
+}
+
+/* حالت‌های کنتراست */
+.contrast-mode.dark {
+  filter: invert(1) hue-rotate(180deg);
+  background-color: black !important;
+  color: white !important;
+}
+
+.contrast-mode.light {
+  filter: none;
+  background-color: white !important;
+  color: black !important;
+}
+
+.contrast-mode.high {
+  filter: contrast(2);
+}
+
+/* حالت‌های اشباع رنگ */
+.saturation-mode.high {
+  filter: saturate(2);
+}
+
+.saturation-mode.monochrome {
+  filter: grayscale(100%);
+}
+
+.saturation-mode.low {
+  filter: saturate(0.5);
+}
+
+/* حالت کوررنگی */
+.colorblind-filter {
+  filter: none;
+}
+
+.deuteranopia {
+  filter: url(#deuteranopia);
+}
+
+.protanopia {
+  filter: url(#protanopia);
+}
+
+.tritanopia {
+  filter: url(#tritanopia);
+}
+
+.achromatopsia {
+  filter: grayscale(100%);
+}
+
+/* استایل اطلاعات راهنما */
+.info-icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background: #007bff;
+  color: white;
+  text-align: center;
+  border-radius: 50%;
+  font-size: 12px;
+  line-height: 16px;
+  cursor: pointer;
+  margin-left: 5px;
+  position: relative;
+}
+
+.info-text {
+  display: none;
+  position: absolute;
+  inset-inline-start: 0;
+  top: 30px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px;
+  border-radius: 5px;
+  width: 220px;
+  font-size: 12px;
+  z-index: 10;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.info-icon:hover + .info-text {
+  display: block;
+  opacity: 1;
+}/*# sourceMappingURL=accessibility.css.map */
