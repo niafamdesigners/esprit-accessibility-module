@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Niafam Accessibility</title>
+
+    <!-- accessibility styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider/distribute/nouislider.min.css" />
+    <style>
+      /* .noUi-txt-dir-rtl.noUi-horizontal .noUi-origin {
+        left: 100%;
+        right: auto;
+      } */
+      /* استایل‌های نهایی برای تنظیمات قالب */
+      .offcanvas-settings {
+        position: fixed;
+        top: 0;
+        left: -600px;
+        width: 300px;
+        height: 100%;
+        background: #f8f8f8 !important;
+        box-shadow: 30px 0px 60px 30px rgba(0, 0, 0, 0.2);
+        padding: 20px 20px 20px 10px;
+        transition: left 0.3s;
+        z-index: 1000;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #ccc #f8f8f8;
+      }
+      .offcanvas-settings h3 {
+        font-size: 1.125em;
+        font-variation-settings: "wght" 699, "KASH" 0;
+        margin-bottom: 1rem;
+        padding-inline-start: 5px;
+      }
+      .offcanvas-settings label {
+        font-size: 1em;
+        font-variation-settings: "wght" 450, "KASH" 0;
+        margin-bottom: 0.5rem;
+        padding-inline-start: 5px;
+        position: relative;
+      }
+      .offcanvas-settings .reset-button {
+        background: none;
+        border: none;
+        color: #ff4d4d;
+        font-size: 0.9em;
+        cursor: pointer;
+        margin-inline-start: 8px;
+        transition: color 0.3s;
+      }
+      .offcanvas-settings .reset-button:hover {
+        color: #d32f2f;
+      }
+      .offcanvas-settings .reset-icon {
+        cursor: pointer;
+        width: 20px;
+        height: 20px;
+        stroke: #ff4d4d;
+        transition: stroke 0.3s, transform 0.3s;
+        position: absolute;
+        left: 10px;
+        top: 10px;
+      }
+      .offcanvas-settings .reset-icon:hover {
+        stroke: #cc0000;
+        transform: rotate(-20deg);
+      }
+
+      .offcanvas-settings__item {
+        background: #eee;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        padding: 1rem;
+        position: relative;
+      }
+      .offcanvas-settings__item .noUi-target {
+        margin-bottom: 2.5rem;
+      }
+
+      .offcanvas-settings::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      .offcanvas-settings::-webkit-scrollbar-thumb {
+        background: #bbb;
+        border-radius: 3px;
+      }
+
+      .offcanvas-settings.open {
+        left: 0;
+      }
+
+      .section-title {
+        font-size: 14px;
+        font-weight: bold;
+        margin-top: 15px;
+        padding-bottom: 5px;
+        border-bottom: 2px solid #ddd;
+      }
+
+      /* تنظیمات گزینه‌ها */
+      .options-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .options-grid.options-grid-horizontally {
+        grid-template-columns: repeat(8, 1fr);
+      }
+
+      .options-grid.options-grid-horizontally .option-item {
+        border-radius: 100px;
+        border: 0px solid transparent;
+        width: 24px;
+        height: 24px;
+      }
+
+      .option-item {
+        padding: 12px;
+        text-align: center;
+        border: 0px solid transparent;
+        cursor: pointer;
+        background: #e0e0e0;
+        border-radius: 8px;
+        transition: all 0.3s ease-in-out;
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      .option-item:hover {
+        background: #d6d6d6;
+        transform: scale(1.05);
+      }
+
+      .option-item.active {
+        border-color: #007bff;
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        color: white;
+        transform: scale(1.1);
+      }
+
+      .option-item img {
+        width: auto;
+        height: 18px;
+        display: inline-block;
+        vertical-align: middle;
+        object-fit: contain;
+      }
+
+      /* لیست رنگ‌ها به‌صورت دایره‌ای */
+      .color-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        margin-top: 10px;
+      }
+
+      .color-item {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: all 0.3s;
+      }
+
+      .color-item:hover {
+        transform: scale(1.1);
+      }
+
+      .color-item.active {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+      }
+
+      /* تب‌بندی تنظیمات */
+      .settings-tabs {
+        display: flex;
+        justify-content: space-around;
+        background: #ddd;
+        padding: 5px;
+        border-radius: 8px;
+      }
+
+      .tab-item {
+        padding: 8px 12px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 6px;
+        transition: all 0.3s;
+      }
+
+      .tab-item.active {
+        background: #007bff;
+        color: white;
+      }
+
+      /* حالت‌های کنتراست */
+      .contrast-mode.dark {
+        filter: invert(1) hue-rotate(180deg);
+        background-color: black !important;
+        color: white !important;
+      }
+
+      .contrast-mode.light {
+        filter: none;
+        background-color: white !important;
+        color: black !important;
+      }
+
+      .contrast-mode.high {
+        filter: contrast(2);
+      }
+
+      /* حالت‌های اشباع رنگ */
+      .saturation-mode.high {
+        filter: saturate(2);
+      }
+
+      .saturation-mode.monochrome {
+        filter: grayscale(100%);
+      }
+
+      .saturation-mode.low {
+        filter: saturate(0.5);
+      }
+
+      /* حالت کوررنگی */
+      .colorblind-filter {
+        filter: none;
+      }
+
+      .deuteranopia {
+        filter: url(#deuteranopia);
+      }
+
+      .protanopia {
+        filter: url(#protanopia);
+      }
+
+      .tritanopia {
+        filter: url(#tritanopia);
+      }
+
+      .achromatopsia {
+        filter: grayscale(100%);
+      }
+
+      /* استایل اطلاعات راهنما */
+      .info-icon {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background: #007bff;
+        color: white;
+        text-align: center;
+        border-radius: 50%;
+        font-size: 12px;
+        line-height: 16px;
+        cursor: pointer;
+        margin-left: 5px;
+        position: relative;
+      }
+
+      .info-text {
+        display: none;
+        position: absolute;
+        inset-inline-start: 0;
+        top: 30px;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 8px;
+        border-radius: 5px;
+        width: 220px;
+        font-size: 12px;
+        z-index: 10;
+        transition: opacity 0.3s ease-in-out;
+      }
+
+      .info-icon:hover + .info-text {
+        display: block;
+        opacity: 1;
+      }
+    </style>
+
+    <!-- off-canvas styles -->
+    <link rel="stylesheet" type="text/css" href="offCanvas/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="offCanvas/css/demo.css" />
+    <link rel="stylesheet" type="text/css" href="offCanvas/css/icons.css" />
+    <link rel="stylesheet" type="text/css" href="offCanvas/css/component.css" />
+  </head>
+  <body>
+    <div id="st-container" class="st-container">
+      <nav class="st-menu st-effect-1 offcanvas-settings" id="menu-1">
+        <!-- nav st-menu contents -->
+        <h3>تنظیمات قالب</h3>
+
+        <div class="offcanvas-settings__item">
+          <label>تغییر اندازه فونت </label>
+
+          <div id="fontSizeSlider" class="slider-container"></div>
+
+          <svg class="reset-icon" data-target="fontSizeSlider" width="800px" height="800px" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
+            <g fill="none" fill-rule="evenodd" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" transform="matrix(0 1 1 0 2.5 2.5)">
+              <path d="m3.98652376 1.07807068c-2.38377179 1.38514556-3.98652376 3.96636605-3.98652376 6.92192932 0 4.418278 3.581722 8 8 8s8-3.581722 8-8-3.581722-8-8-8" />
+              <path d="m4 1v4h-4" transform="matrix(1 0 0 -1 0 6)" />
+            </g>
+          </svg>
+        </div>
+
+        <div class="offcanvas-settings__item">
+          <label>تغییر فاصله بین کلمات</label>
+          <div id="wordSpacingSlider" class="slider-container"></div>
+          <svg class="reset-icon" data-target="wordSpacingSlider" width="800px" height="800px" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
+            <g fill="none" fill-rule="evenodd" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" transform="matrix(0 1 1 0 2.5 2.5)">
+              <path d="m3.98652376 1.07807068c-2.38377179 1.38514556-3.98652376 3.96636605-3.98652376 6.92192932 0 4.418278 3.581722 8 8 8s8-3.581722 8-8-3.581722-8-8-8" />
+              <path d="m4 1v4h-4" transform="matrix(1 0 0 -1 0 6)" />
+            </g>
+          </svg>
+        </div>
+
+        <div class="offcanvas-settings__item">
+          <label>تغییر فاصله بین خطوط</label>
+          <div id="lineHeightSlider" class="slider-container"></div>
+          <svg class="reset-icon" data-target="lineHeightSlider" width="800px" height="800px" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
+            <g fill="none" fill-rule="evenodd" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" transform="matrix(0 1 1 0 2.5 2.5)">
+              <path d="m3.98652376 1.07807068c-2.38377179 1.38514556-3.98652376 3.96636605-3.98652376 6.92192932 0 4.418278 3.581722 8 8 8s8-3.581722 8-8-3.581722-8-8-8" />
+              <path d="m4 1v4h-4" transform="matrix(1 0 0 -1 0 6)" />
+            </g>
+          </svg>
+        </div>
+
+        <div class="offcanvas-settings__item">
+          <label>تغییر فونت</label>
+          <div class="options-grid" id="fontOptions">
+            <div class="option-item" data-font="vazir"><img src="img/vazir.png" alt="vazir" /></div>
+            <div class="option-item" data-font="estedad"><img src="img/estedad.png" alt="estedad" /></div>
+            <div class="option-item" data-font="shabnam"><img src="img/shabnam.png" alt="shabnam" /></div>
+            <div class="option-item" data-font="sahel"><img src="img/sahel.png" alt="sahel" /></div>
+          </div>
+
+          <svg class="reset-icon" data-target="fontOptions" width="800px" height="800px" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
+            <g fill="none" fill-rule="evenodd" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" transform="matrix(0 1 1 0 2.5 2.5)">
+              <path d="m3.98652376 1.07807068c-2.38377179 1.38514556-3.98652376 3.96636605-3.98652376 6.92192932 0 4.418278 3.581722 8 8 8s8-3.581722 8-8-3.581722-8-8-8" />
+              <path d="m4 1v4h-4" transform="matrix(1 0 0 -1 0 6)" />
+            </g>
+          </svg>
+        </div>
+
+        <div class="offcanvas-settings__item">
+          <label>تغییر رنگ عنوان</label>
+          <div class="options-grid options-grid-horizontally" id="titleColorOptions">
+            <div class="option-item" data-color="#1d9fc2" style="background: #1d9fc2"></div>
+            <div class="option-item" data-color="#2d71e3" style="background: #2d71e3"></div>
+            <div class="option-item" data-color="#5459ed" style="background: #5459ed"></div>
+            <div class="option-item" data-color="#8e56ea" style="background: #8e56ea"></div>
+            <div class="option-item" data-color="#cb55db" style="background: #cb55db"></div>
+            <div class="option-item" data-color="#000000" style="background: #000"></div>
+            <div class="option-item" data-color="#ffffff" style="background: #fff"></div>
+          </div>
+
+          <svg class="reset-icon" data-target="titleColorOptions" width="800px" height="800px" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
+            <g fill="none" fill-rule="evenodd" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" transform="matrix(0 1 1 0 2.5 2.5)">
+              <path d="m3.98652376 1.07807068c-2.38377179 1.38514556-3.98652376 3.96636605-3.98652376 6.92192932 0 4.418278 3.581722 8 8 8s8-3.581722 8-8-3.581722-8-8-8" />
+              <path d="m4 1v4h-4" transform="matrix(1 0 0 -1 0 6)" />
+            </g>
+          </svg>
+        </div>
+
+        <div class="offcanvas-settings__item">
+          <label>تغییر رنگ متن</label>
+          <div class="options-grid options-grid-horizontally" id="textColorOptions">
+            <div class="option-item" data-color="#1d9fc2" style="background: #1d9fc2"></div>
+            <div class="option-item" data-color="#2d71e3" style="background: #2d71e3"></div>
+            <div class="option-item" data-color="#5459ed" style="background: #5459ed"></div>
+            <div class="option-item" data-color="#8e56ea" style="background: #8e56ea"></div>
+            <div class="option-item" data-color="#cb55db" style="background: #cb55db"></div>
+            <div class="option-item" data-color="#000000" style="background: #000"></div>
+            <div class="option-item" data-color="#ffffff" style="background: #fff"></div>
+          </div>
+
+          <svg class="reset-icon" data-target="textColorOptions" width="800px" height="800px" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
+            <g fill="none" fill-rule="evenodd" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" transform="matrix(0 1 1 0 2.5 2.5)">
+              <path d="m3.98652376 1.07807068c-2.38377179 1.38514556-3.98652376 3.96636605-3.98652376 6.92192932 0 4.418278 3.581722 8 8 8s8-3.581722 8-8-3.581722-8-8-8" />
+              <path d="m4 1v4h-4" transform="matrix(1 0 0 -1 0 6)" />
+            </g>
+          </svg>
+        </div>
+
+        <div class="offcanvas-settings__item">
+          <label>حالت کنتراست <span class="info-icon">?</span><span class="info-text">این گزینه برای بهبود خوانایی متن در شرایط نوری مختلف کاربرد دارد.</span></label>
+          <div class="options-grid" id="contrastOptions">
+            <div class="option-item" data-contrast="dark">کنتراست تیره</div>
+            <div class="option-item" data-contrast="light">کنتراست روشن</div>
+            <div class="option-item" data-contrast="high">کنتراست بالا</div>
+          </div>
+
+          <svg class="reset-icon" data-target="contrastOptions" width="800px" height="800px" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
+            <g fill="none" fill-rule="evenodd" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" transform="matrix(0 1 1 0 2.5 2.5)">
+              <path d="m3.98652376 1.07807068c-2.38377179 1.38514556-3.98652376 3.96636605-3.98652376 6.92192932 0 4.418278 3.581722 8 8 8s8-3.581722 8-8-3.581722-8-8-8" />
+              <path d="m4 1v4h-4" transform="matrix(1 0 0 -1 0 6)" />
+            </g>
+          </svg>
+        </div>
+
+        <div class="offcanvas-settings__item">
+          <label>اشباع رنگ <span class="info-icon">?</span><span class="info-text">این گزینه میزان شدت رنگ‌ها را برای کاربر تنظیم می‌کند.</span></label>
+          <div class="options-grid" id="saturationOptions">
+            <div class="option-item" data-saturation="high">اشباع رنگی بالا</div>
+            <div class="option-item" data-saturation="monochrome">سیاه و سفید</div>
+            <div class="option-item" data-saturation="low">اشباع رنگی کم</div>
+          </div>
+
+          <svg class="reset-icon" data-target="saturationOptions" width="800px" height="800px" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
+            <g fill="none" fill-rule="evenodd" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" transform="matrix(0 1 1 0 2.5 2.5)">
+              <path d="m3.98652376 1.07807068c-2.38377179 1.38514556-3.98652376 3.96636605-3.98652376 6.92192932 0 4.418278 3.581722 8 8 8s8-3.581722 8-8-3.581722-8-8-8" />
+              <path d="m4 1v4h-4" transform="matrix(1 0 0 -1 0 6)" />
+            </g>
+          </svg>
+        </div>
+
+        <div class="offcanvas-settings__item">
+          <label>حالت کوررنگی <span class="info-icon">?</span><span class="info-text">این گزینه به کاربران دارای کوررنگی کمک می‌کند تا رنگ‌ها را بهتر تشخیص دهند.</span></label>
+          <div class="options-grid" id="colorBlindOptions">
+            <div class="option-item" data-filter="none">بدون فیلتر</div>
+            <div class="option-item" data-filter="deuteranopia">کوررنگی سبز</div>
+            <div class="option-item" data-filter="protanopia">کوررنگی قرمز</div>
+            <div class="option-item" data-filter="tritanopia">کوررنگی آبی</div>
+            <div class="option-item" data-filter="achromatopsia">تک رنگ بینی</div>
+          </div>
+
+          <svg class="reset-icon" data-target="colorBlindOptions" width="800px" height="800px" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
+            <g fill="none" fill-rule="evenodd" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" transform="matrix(0 1 1 0 2.5 2.5)">
+              <path d="m3.98652376 1.07807068c-2.38377179 1.38514556-3.98652376 3.96636605-3.98652376 6.92192932 0 4.418278 3.581722 8 8 8s8-3.581722 8-8-3.581722-8-8-8" />
+              <path d="m4 1v4h-4" transform="matrix(1 0 0 -1 0 6)" />
+            </g>
+          </svg>
+        </div>
+
+        <!-- نمایان کردن لینک‌ها -->
+        <div class="offcanvas-settings__item">
+          <label>نمایان کردن لینک‌ها <span class="info-icon">?</span><span class="info-text">این گزینه لینک‌های موجود در صفحه را بهتر نمایان می‌کند.</span></label>
+          <div class="options-grid" id="highlightLinksOptions">
+            <div class="option-item" data-highlight="on">روشن</div>
+            <div class="option-item" data-highlight="off">خاموش</div>
+          </div>
+
+          <svg class="reset-icon" data-target="highlightLinksOptions" width="800px" height="800px" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
+            <g fill="none" fill-rule="evenodd" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" transform="matrix(0 1 1 0 2.5 2.5)">
+              <path d="m3.98652376 1.07807068c-2.38377179 1.38514556-3.98652376 3.96636605-3.98652376 6.92192932 0 4.418278 3.581722 8 8 8s8-3.581722 8-8-3.581722-8-8-8" />
+              <path d="m4 1v4h-4" transform="matrix(1 0 0 -1 0 6)" />
+            </g>
+          </svg>
+        </div>
+
+        <!-- پنهان کردن تصاویر -->
+        <div class="offcanvas-settings__item">
+          <label>نمایش تصاویر <span class="info-icon">?</span><span class="info-text">این گزینه برای پنهان یا نمایش تصاویر موجود در صفحه کاربرد دارد.</span></label>
+          <div class="options-grid" id="hideImagesOptions">
+            <div class="option-item" data-images="show">نمایش</div>
+            <div class="option-item" data-images="hide">پنهان</div>
+          </div>
+
+          <svg class="reset-icon" data-target="hideImagesOptions" width="800px" height="800px" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
+            <g fill="none" fill-rule="evenodd" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" transform="matrix(0 1 1 0 2.5 2.5)">
+              <path d="m3.98652376 1.07807068c-2.38377179 1.38514556-3.98652376 3.96636605-3.98652376 6.92192932 0 4.418278 3.581722 8 8 8s8-3.581722 8-8-3.581722-8-8-8" />
+              <path d="m4 1v4h-4" transform="matrix(1 0 0 -1 0 6)" />
+            </g>
+          </svg>
+        </div>
+
+        <!-- تغییر نشانگر موس -->
+        <div class="offcanvas-settings__item">
+          <label>تغییر نشانگر موس <span class="info-icon">?</span><span class="info-text">این گزینه اندازه و رنگ نشانگر موس را تغییر می‌دهد.</span></label>
+          <div class="options-grid" id="cursorOptions">
+            <div class="option-item" data-cursor="default">پیش‌فرض</div>
+            <div class="option-item" data-cursor="big-black">نشانگر بزرگ سیاه</div>
+            <div class="option-item" data-cursor="big-white">نشانگر بزرگ سفید</div>
+          </div>
+
+          <svg class="reset-icon" data-target="cursorOptions" width="800px" height="800px" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
+            <g fill="none" fill-rule="evenodd" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" transform="matrix(0 1 1 0 2.5 2.5)">
+              <path d="m3.98652376 1.07807068c-2.38377179 1.38514556-3.98652376 3.96636605-3.98652376 6.92192932 0 4.418278 3.581722 8 8 8s8-3.581722 8-8-3.581722-8-8-8" />
+              <path d="m4 1v4h-4" transform="matrix(1 0 0 -1 0 6)" />
+            </g>
+          </svg>
+        </div>
+      </nav>
+
+      <svg width="0" height="0">
+        <defs>
+          <filter id="deuteranopia">
+            <feColorMatrix
+              type="matrix"
+              values="0.625, 0.375, 0, 0, 0
+                                                        0.7, 0.3, 0, 0, 0
+                                                        0, 0.3, 0.7, 0, 0
+                                                        0, 0, 0, 1, 0"
+            />
+          </filter>
+          <filter id="protanopia">
+            <feColorMatrix
+              type="matrix"
+              values="0.567, 0.433, 0, 0, 0
+                                                        0.558, 0.442, 0, 0, 0
+                                                        0, 0.242, 0.758, 0, 0
+                                                        0, 0, 0, 1, 0"
+            />
+          </filter>
+          <filter id="tritanopia">
+            <feColorMatrix
+              type="matrix"
+              values="0.95, 0.05, 0, 0, 0
+                                                        0, 0.433, 0.567, 0, 0
+                                                        0, 0.475, 0.525, 0, 0
+                                                        0, 0, 0, 1, 0"
+            />
+          </filter>
+        </defs>
+      </svg>
+
+      <div class="st-pusher">
+        <div class="st-content">
+          <div class="st-content-inner">
+            <div class="main clearfix">
+              <div id="st-trigger-effects" class="column">
+                <button data-effect="st-effect-1">Slide in on top</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- accessibility scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/nouislider/distribute/nouislider.min.js"></script>
+    <!-- اضافه کردن فایل مدیریت تنظیمات دسترسی‌پذیری -->
+    <script src="js/accessibility-settings.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        function createSlider(id, values, start, callback) {
+          var slider = document.getElementById(id);
+          noUiSlider.create(slider, {
+            start: [start],
+            connect: [true, false],
+            range: {
+              min: values[0],
+              max: values[values.length - 1],
+            },
+            step: null,
+            pips: {
+              mode: "values",
+              values: values,
+              density: 5,
+            },
+          });
+          slider.noUiSlider.on("update", function (values, handle) {
+            callback(values[handle]);
+          });
+        }
+
+        createSlider("fontSizeSlider", [12, 16, 20, 24, 30], 16, function (value) {
+          document.body.style.fontSize = value + "px";
+        });
+
+        createSlider("wordSpacingSlider", [0, 2, 4, 6, 10], 1, function (value) {
+          document.body.style.wordSpacing = value + "px";
+        });
+
+        createSlider("lineHeightSlider", [1, 1.5, 2, 2.5, 3], 1.5, function (value) {
+          document.body.style.lineHeight = value;
+        });
+
+        document.querySelectorAll("#fontOptions .option-item").forEach((item) => {
+          item.addEventListener("click", function () {
+            document.body.style.fontFamily = this.dataset.font;
+            document.querySelectorAll("#fontOptions .option-item").forEach((el) => el.classList.remove("active"));
+            this.classList.add("active");
+          });
+        });
+
+        document.querySelectorAll("#colorBlindOptions .option-item").forEach((item) => {
+          item.addEventListener("click", function () {
+            document.body.className = "colorblind-filter " + this.dataset.filter;
+            document.querySelectorAll("#colorBlindOptions .option-item").forEach((el) => el.classList.remove("active"));
+            this.classList.add("active");
+          });
+        });
+
+        function loadFont(fontName, fontUrl, isVariable = false) {
+          if (document.querySelector(`#font-style-${fontName}`)) {
+            document.body.style.fontFamily = fontName;
+            return;
+          }
+
+          let style = document.createElement("style");
+          style.id = `font-style-${fontName}`;
+          style.innerHTML = `
+    @font-face {
+      font-family: '${fontName}';
+      src: url('${fontUrl}') format('woff2');
+      ${isVariable ? "font-weight: 100 900;" : "font-weight: normal;"}
+      font-style: normal;
+    }
+  `;
+          document.head.appendChild(style);
+
+          document.body.style.fontFamily = fontName;
+        }
+
+        document.querySelectorAll("#fontOptions .option-item").forEach((item) => {
+          item.addEventListener("click", function () {
+            let selectedFont = this.dataset.font;
+            let fontPaths = {
+              vazir: "/uploads/idronew/fonts/Vazir-v33.003/Vazirmatn[wght].woff2",
+              estedad: "/uploads/idronew/fonts/Estedad-v7.3/webfonts/variable/Estedad-FD[KSHD,wght].woff2",
+              shabnam: "/uploads/idronew/fonts/Shabnam-v5.0.1/Farsi-Digits/Shabnam-Medium-FD.woff2",
+              sahel: "/uploads/idronew/fonts/Sahel-v3.4.0/Farsi-Digits/Sahel-FD.woff2",
+            };
+
+            let isVariable = ["vazir", "estedad"].includes(selectedFont);
+            loadFont(selectedFont, fontPaths[selectedFont], isVariable);
+
+            document.querySelectorAll("#fontOptions .option-item").forEach((el) => el.classList.remove("active"));
+            this.classList.add("active");
+
+            if (isVariable) {
+              document.body.style.fontVariationSettings = `"wght" 450, "KASH" 0`;
+            } else {
+              document.body.style.removeProperty("font-variation-settings");
+            }
+          });
+        });
+
+        document.querySelectorAll("#textColorOptions .option-item").forEach((item) => {
+          item.addEventListener("click", function () {
+            document.body.style.color = this.dataset.color;
+            document.querySelectorAll("#textColorOptions .option-item").forEach((el) => el.classList.remove("active"));
+            this.classList.add("active");
+          });
+        });
+
+        document.querySelectorAll("#titleColorOptions .option-item").forEach((item) => {
+          item.addEventListener("click", function () {
+            document.querySelectorAll("h1, h2, h3, h4, h5, h6").forEach((title) => {
+              title.style.color = this.dataset.color;
+            });
+            document.querySelectorAll("#titleColorOptions .option-item").forEach((el) => el.classList.remove("active"));
+            this.classList.add("active");
+          });
+        });
+
+        document.querySelectorAll("#contrastOptions .option-item").forEach((item) => {
+          item.addEventListener("click", function () {
+            document.body.className = "contrast-mode " + this.dataset.contrast;
+            document.querySelectorAll("#contrastOptions .option-item").forEach((el) => el.classList.remove("active"));
+            this.classList.add("active");
+          });
+        });
+
+        document.querySelectorAll("#saturationOptions .option-item").forEach((item) => {
+          item.addEventListener("click", function () {
+            document.body.className = "saturation-mode " + this.dataset.saturation;
+            document.querySelectorAll("#saturationOptions .option-item").forEach((el) => el.classList.remove("active"));
+            this.classList.add("active");
+          });
+        });
+
+        document.querySelectorAll(".reset-icon").forEach((icon) => {
+          icon.addEventListener("click", function (e) {
+            // به‌روزرسانی برای استفاده از سیستم مدیریت تنظیمات
+            // برای جلوگیری از تداخل با کد دیگر، منتظر می‌مانیم تا رویداد به‌صورت کامل انجام شود
+            e.preventDefault();
+            e.stopPropagation();
+
+            // برای جلوگیری از تداخل با کد accessibility-settings.js، کاری نمی‌کنیم
+            // resetSetting تابع در فایل accessibility-settings.js استفاده می‌شود
+            // از رویداد mousedown در آنجا استفاده شده است
+          });
+        });
+
+        // نمایان کردن لینک‌ها
+        document.querySelectorAll("#highlightLinksOptions .option-item").forEach((item) => {
+          item.addEventListener("click", function () {
+            const highlightMode = this.dataset.highlight;
+            document.querySelectorAll("#highlightLinksOptions .option-item").forEach((el) => el.classList.remove("active"));
+            this.classList.add("active");
+
+            if (highlightMode === "on") {
+              document.querySelectorAll("a").forEach((link) => {
+                link.style.outline = "2px solid rgba(255, 114, 22, 0.5)";
+                link.style.outlineOffset = "2px";
+              });
+            } else {
+              document.querySelectorAll("a").forEach((link) => {
+                link.style.outline = "";
+                link.style.outlineOffset = "";
+              });
+            }
+          });
+        });
+
+        // پنهان کردن تصاویر
+        document.querySelectorAll("#hideImagesOptions .option-item").forEach((item) => {
+          item.addEventListener("click", function () {
+            const imagesMode = this.dataset.images;
+            document.querySelectorAll("#hideImagesOptions .option-item").forEach((el) => el.classList.remove("active"));
+            this.classList.add("active");
+
+            if (imagesMode === "hide") {
+              document.querySelectorAll("img").forEach((img) => {
+                img.style.display = "none";
+              });
+            } else {
+              document.querySelectorAll("img").forEach((img) => {
+                img.style.display = "";
+              });
+            }
+          });
+        });
+
+        // تغییر نشانگر موس
+        document.querySelectorAll("#cursorOptions .option-item").forEach((item) => {
+          item.addEventListener("click", function () {
+            const cursorMode = this.dataset.cursor;
+            document.querySelectorAll("#cursorOptions .option-item").forEach((el) => el.classList.remove("active"));
+            this.classList.add("active");
+
+            // پاک کردن کلاس‌های قبلی
+            document.body.classList.remove("cursor-big-black", "cursor-big-white");
+            document.documentElement.style.cursor = "";
+
+            // حذف استایل‌های قبلی اعمال شده به لینک‌ها
+            const customCursorStyle = document.getElementById("custom-cursor-style");
+            if (customCursorStyle) {
+              customCursorStyle.remove();
+            }
+
+            // اعمال نشانگر جدید
+            if (cursorMode === "big-black") {
+              document.body.classList.add("cursor-big-black");
+              // ایجاد استایل برای نشانگر اصلی و نشانگر لینک‌ها
+              const style = document.createElement("style");
+              style.id = "custom-cursor-style";
+              style.innerHTML = `
+                html, body, div, span, p, h1, h2, h3, h4, h5, h6, button, input, select, textarea {
+                  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><path d="M27.8,39.7c-0.1,0 -0.2,0 -0.4,-0.1c-0.2,-0.1 -0.4,-0.3 -0.6,-0.5l-3.7,-8.6l-4.5,4.2c-0.1,0.2 -0.3,0.3 -0.6,0.3c-0.1,0 -0.3,0 -0.4,-0.1c-0.3,-0.1 -0.6,-0.5 -0.6,-0.9v-22c0,-0.4 0.2,-0.8 0.6,-0.9c0.1,-0.1 0.3,-0.1 0.4,-0.1c0.2,0 0.5,0.1 0.7,0.3l16,15c0.3,0.3 0.4,0.7 0.3,1.1c-0.1,0.4 -0.5,0.6 -0.9,0.7l-6.3,0.6l3.9,8.5c0.1,0.2 0.1,0.5 0,0.8c-0.1,0.2 -0.3,0.5 -0.5,0.6l-2.9,1.3c-0.2,-0.2 -0.4,-0.2 -0.5,-0.2z" fill="%23000000"></path><path d="M18,12l16,15l-7.7,0.7l4.5,9.8l-2.9,1.3l-4.3,-9.9l-5.6,5.1v-22M18,10c-0.3,0 -0.5,0.1 -0.8,0.2c-0.7,0.3 -1.2,1 -1.2,1.8v22c0,0.8 0.5,1.5 1.2,1.8c0.3,0.2 0.6,0.2 0.8,0.2c0.5,0 1,-0.2 1.4,-0.5l3.4,-3.2l3.1,7.3c0.2,0.5 0.6,0.9 1.1,1.1c0.2,0.1 0.5,0.1 0.7,0.1c0.3,0 0.5,-0.1 0.8,-0.2l2.9,-1.3c0.5,-0.2 0.9,-0.6 1.1,-1.1c0.2,-0.5 0.2,-1.1 0,-1.5l-3.3,-7.2l4.9,-0.4c0.8,-0.1 1.5,-0.6 1.7,-1.3c0.3,-0.7 0.1,-1.6 -0.5,-2.1l-16,-15c-0.3,-0.5 -0.8,-0.7 -1.3,-0.7z" fill="%23ffffff"></path></svg>') 8 0, auto !important;
+                }
+                a, button, input[type=submit], input[type=button], .clickable {
+                  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 30 30"><path d="M11,2c-1.105,0 -2,0.895 -2,2v8v1v6.5c-2.552,-1.299 -3.711,-1.5 -5,-1.5c-1.49609,0 -2.99026,0.57731 -2.99805,2.48633l4.49805,2.01367l3.15625,3.15625c1.5,1.5 3.5362,2.34375 5.6582,2.34375h6.68555c2.209,0 4,-1.791 4,-4v-10c0,-1.10457 -0.89543,-2 -2,-2c-0.77365,0.00117 -1.47724,0.44842 -1.80664,1.14844c-0.12655,-0.0862 -0.19336,-0.14844 -0.19336,-0.14844c0,-1.10457 -0.89543,-2 -2,-2c-1.10457,0 -2,0.89543 -2,2v-1c0,-1.105 -0.895,-2 -2,-2c-1.105,0 -2,0.895 -2,2v-8c0,-1.105 -0.895,-2 -2,-2zM1.00195,20.48633h-0.00195v0.01367c0,-0.00501 0.00193,-0.00868 0.00195,-0.01367z" fill="%23000000" stroke="%23ffffff" stroke-width="1"></path></svg>') 8 0, pointer !important;
+                }
+              `;
+              document.head.appendChild(style);
+            } else if (cursorMode === "big-white") {
+              document.body.classList.add("cursor-big-white");
+              // ایجاد استایل برای نشانگر اصلی و نشانگر لینک‌ها
+              const style = document.createElement("style");
+              style.id = "custom-cursor-style";
+              style.innerHTML = `
+                html, body, div, span, p, h1, h2, h3, h4, h5, h6, button, input, select, textarea {
+                  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><path d="M27.8,39.7c-0.1,0 -0.2,0 -0.4,-0.1c-0.2,-0.1 -0.4,-0.3 -0.6,-0.5l-3.7,-8.6l-4.5,4.2c-0.1,0.2 -0.3,0.3 -0.6,0.3c-0.1,0 -0.3,0 -0.4,-0.1c-0.3,-0.1 -0.6,-0.5 -0.6,-0.9v-22c0,-0.4 0.2,-0.8 0.6,-0.9c0.1,-0.1 0.3,-0.1 0.4,-0.1c0.2,0 0.5,0.1 0.7,0.3l16,15c0.3,0.3 0.4,0.7 0.3,1.1c-0.1,0.4 -0.5,0.6 -0.9,0.7l-6.3,0.6l3.9,8.5c0.1,0.2 0.1,0.5 0,0.8c-0.1,0.2 -0.3,0.5 -0.5,0.6l-2.9,1.3c-0.2,-0.2 -0.4,-0.2 -0.5,-0.2z" fill="%23ffffff"></path><path d="M18,12l16,15l-7.7,0.7l4.5,9.8l-2.9,1.3l-4.3,-9.9l-5.6,5.1v-22M18,10c-0.3,0 -0.5,0.1 -0.8,0.2c-0.7,0.3 -1.2,1 -1.2,1.8v22c0,0.8 0.5,1.5 1.2,1.8c0.3,0.2 0.6,0.2 0.8,0.2c0.5,0 1,-0.2 1.4,-0.5l3.4,-3.2l3.1,7.3c0.2,0.5 0.6,0.9 1.1,1.1c0.2,0.1 0.5,0.1 0.7,0.1c0.3,0 0.5,-0.1 0.8,-0.2l2.9,-1.3c0.5,-0.2 0.9,-0.6 1.1,-1.1c0.2,-0.5 0.2,-1.1 0,-1.5l-3.3,-7.2l4.9,-0.4c0.8,-0.1 1.5,-0.6 1.7,-1.3c0.3,-0.7 0.1,-1.6 -0.5,-2.1l-16,-15c-0.3,-0.5 -0.8,-0.7 -1.3,-0.7z" fill="%23000000"></path></svg>') 8 0, auto !important;
+                }
+                a, button, input[type=submit], input[type=button], .clickable {
+                  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 30 30"><path d="M11,2c-1.105,0 -2,0.895 -2,2v8v1v6.5c-2.552,-1.299 -3.711,-1.5 -5,-1.5c-1.49609,0 -2.99026,0.57731 -2.99805,2.48633l4.49805,2.01367l3.15625,3.15625c1.5,1.5 3.5362,2.34375 5.6582,2.34375h6.68555c2.209,0 4,-1.791 4,-4v-10c0,-1.10457 -0.89543,-2 -2,-2c-0.77365,0.00117 -1.47724,0.44842 -1.80664,1.14844c-0.12655,-0.0862 -0.19336,-0.14844 -0.19336,-0.14844c0,-1.10457 -0.89543,-2 -2,-2c-1.10457,0 -2,0.89543 -2,2v-1c0,-1.105 -0.895,-2 -2,-2c-1.105,0 -2,0.895 -2,2v-8c0,-1.105 -0.895,-2 -2,-2zM1.00195,20.48633h-0.00195v0.01367c0,-0.00501 0.00193,-0.00868 0.00195,-0.01367z" fill="%23ffffff" stroke="%23000000" stroke-width="1"></path></svg>') 8 0, pointer !important;
+                }
+              `;
+              document.head.appendChild(style);
+            }
+          });
+        });
+      });
+    </script>
+
+    <!-- off-canvas scripts -->
+    <script src="offCanvas/js/modernizr.custom.js"></script>
+    <script src="offCanvas/js/classie.js"></script>
+    <script src="offCanvas/js/sidebarEffects.js"></script>
+  </body>
+</html>
