@@ -588,7 +588,20 @@
 
         document.querySelectorAll("#colorBlindOptions .option-item").forEach((item) => {
           item.addEventListener("click", function () {
-            document.body.className = "colorblind-filter " + this.dataset.filter;
+            // Remove existing colorblind filter classes first
+            document.body.classList.remove("deuteranopia", "protanopia", "tritanopia", "achromatopsia");
+            // Remove previous colorblind-filter class if adding a new filter
+            if (this.dataset.filter) {
+              // Add colorblind-filter class if it doesn't exist
+              if (!document.body.classList.contains("colorblind-filter")) {
+                document.body.classList.add("colorblind-filter");
+              }
+              // Add the specific filter class
+              document.body.classList.add(this.dataset.filter);
+            } else {
+              // Remove colorblind-filter class if no filter selected
+              document.body.classList.remove("colorblind-filter");
+            }
             document.querySelectorAll("#colorBlindOptions .option-item").forEach((el) => el.classList.remove("active"));
             this.classList.add("active");
           });
@@ -659,7 +672,21 @@
 
         document.querySelectorAll("#contrastOptions .option-item").forEach((item) => {
           item.addEventListener("click", function () {
-            document.body.className = "contrast-mode " + this.dataset.contrast;
+            // Remove existing contrast mode classes
+            const contrastClasses = ["high-contrast", "low-contrast", "negative-contrast"]; // Add all contrast class names
+            document.body.classList.remove(...contrastClasses);
+            // Remove previous contrast-mode class if adding a new contrast
+            if (this.dataset.contrast) {
+              // Add contrast-mode class if it doesn't exist
+              if (!document.body.classList.contains("contrast-mode")) {
+                document.body.classList.add("contrast-mode");
+              }
+              // Add the specific contrast class
+              document.body.classList.add(this.dataset.contrast);
+            } else {
+              // Remove contrast-mode class if no contrast selected
+              document.body.classList.remove("contrast-mode");
+            }
             document.querySelectorAll("#contrastOptions .option-item").forEach((el) => el.classList.remove("active"));
             this.classList.add("active");
           });
@@ -667,7 +694,21 @@
 
         document.querySelectorAll("#saturationOptions .option-item").forEach((item) => {
           item.addEventListener("click", function () {
-            document.body.className = "saturation-mode " + this.dataset.saturation;
+            // Remove existing saturation mode classes
+            const saturationClasses = ["saturate-high", "saturate-low", "saturate-none"]; // Add all saturation class names
+            document.body.classList.remove(...saturationClasses);
+            // Remove previous saturation-mode class if adding a new saturation
+            if (this.dataset.saturation) {
+              // Add saturation-mode class if it doesn't exist
+              if (!document.body.classList.contains("saturation-mode")) {
+                document.body.classList.add("saturation-mode");
+              }
+              // Add the specific saturation class
+              document.body.classList.add(this.dataset.saturation);
+            } else {
+              // Remove saturation-mode class if no saturation selected
+              document.body.classList.remove("saturation-mode");
+            }
             document.querySelectorAll("#saturationOptions .option-item").forEach((el) => el.classList.remove("active"));
             this.classList.add("active");
           });
