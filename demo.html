@@ -496,8 +496,7 @@
       <svg width="0" height="0">
         <defs>
           <filter id="deuteranopia">
-            <feColorMatrix
-              type="matrix"
+            <feColorMatrix type="matrix"
               values="0.625, 0.375, 0, 0, 0
                                                         0.7, 0.3, 0, 0, 0
                                                         0, 0.3, 0.7, 0, 0
@@ -505,8 +504,7 @@
             />
           </filter>
           <filter id="protanopia">
-            <feColorMatrix
-              type="matrix"
+            <feColorMatrix type="matrix"
               values="0.567, 0.433, 0, 0, 0
                                                         0.558, 0.442, 0, 0, 0
                                                         0, 0.242, 0.758, 0, 0
@@ -514,8 +512,7 @@
             />
           </filter>
           <filter id="tritanopia">
-            <feColorMatrix
-              type="matrix"
+            <feColorMatrix type="matrix"
               values="0.95, 0.05, 0, 0, 0
                                                         0, 0.433, 0.567, 0, 0
                                                         0, 0.475, 0.525, 0, 0
@@ -545,6 +542,38 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
+        // ===============================================================
+        // استاتیک تعریف کردن آدرس‌های منابع (فونت‌ها، تصاویر و غیره)
+        // ===============================================================
+        // آدرس فونت‌ها
+        const FONT_PATHS = {
+          vazir: "/uploads/idronew/fonts/Vazir-v33.003/Vazirmatn[wght].woff2",
+          estedad: "/uploads/idronew/fonts/Estedad-v7.3/webfonts/variable/Estedad-FD[KSHD,wght].woff2",
+          shabnam: "/uploads/idronew/fonts/Shabnam-v5.0.1/Farsi-Digits/Shabnam-Medium-FD.woff2",
+          sahel: "/uploads/idronew/fonts/Sahel-v3.4.0/Farsi-Digits/Sahel-FD.woff2",
+        };
+        
+        // فونت‌های متغیر
+        const VARIABLE_FONTS = ["vazir", "estedad"];
+        
+        // آدرس تصاویر نمایش فونت‌ها
+        const FONT_IMAGES = {
+          vazir: "img/vazir.png",
+          estedad: "img/estedad.png",
+          shabnam: "img/shabnam.png",
+          sahel: "img/sahel.png",
+        };
+        
+        // تنظیمات پیش‌فرض
+        const DEFAULT_SETTINGS = {
+          fontSize: 16,
+          wordSpacing: 1,
+          lineHeight: 1.5,
+          fontFamily: "vazir", 
+          fontWeight: 450,
+          fontKashida: 0
+        };
+
         function createSlider(id, values, start, callback) {
           var slider = document.getElementById(id);
           noUiSlider.create(slider, {
@@ -566,15 +595,15 @@
           });
         }
 
-        createSlider("fontSizeSlider", [12, 16, 20, 24, 30], 16, function (value) {
+        createSlider("fontSizeSlider", [12, 16, 20, 24, 30], DEFAULT_SETTINGS.fontSize, function (value) {
           document.body.style.fontSize = value + "px";
         });
 
-        createSlider("wordSpacingSlider", [0, 2, 4, 6, 10], 1, function (value) {
+        createSlider("wordSpacingSlider", [0, 2, 4, 6, 10], DEFAULT_SETTINGS.wordSpacing, function (value) {
           document.body.style.wordSpacing = value + "px";
         });
 
-        createSlider("lineHeightSlider", [1, 1.5, 2, 2.5, 3], 1.5, function (value) {
+        createSlider("lineHeightSlider", [1, 1.5, 2, 2.5, 3], DEFAULT_SETTINGS.lineHeight, function (value) {
           document.body.style.lineHeight = value;
         });
 
@@ -631,21 +660,14 @@
         document.querySelectorAll("#fontOptions .option-item").forEach((item) => {
           item.addEventListener("click", function () {
             let selectedFont = this.dataset.font;
-            let fontPaths = {
-              vazir: "/uploads/idronew/fonts/Vazir-v33.003/Vazirmatn[wght].woff2",
-              estedad: "/uploads/idronew/fonts/Estedad-v7.3/webfonts/variable/Estedad-FD[KSHD,wght].woff2",
-              shabnam: "/uploads/idronew/fonts/Shabnam-v5.0.1/Farsi-Digits/Shabnam-Medium-FD.woff2",
-              sahel: "/uploads/idronew/fonts/Sahel-v3.4.0/Farsi-Digits/Sahel-FD.woff2",
-            };
-
-            let isVariable = ["vazir", "estedad"].includes(selectedFont);
-            loadFont(selectedFont, fontPaths[selectedFont], isVariable);
+            let isVariable = VARIABLE_FONTS.includes(selectedFont);
+            loadFont(selectedFont, FONT_PATHS[selectedFont], isVariable);
 
             document.querySelectorAll("#fontOptions .option-item").forEach((el) => el.classList.remove("active"));
             this.classList.add("active");
 
             if (isVariable) {
-              document.body.style.fontVariationSettings = `"wght" 450, "KASH" 0`;
+              document.body.style.fontVariationSettings = `"wght" ${DEFAULT_SETTINGS.fontWeight}, "KASH" ${DEFAULT_SETTINGS.fontKashida}`;
             } else {
               document.body.style.removeProperty("font-variation-settings");
             }
